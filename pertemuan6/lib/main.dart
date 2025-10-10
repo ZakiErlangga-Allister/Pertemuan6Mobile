@@ -1,67 +1,58 @@
 import 'package:flutter/material.dart';
+import 'Counter.dart'; 
+import 'Profile.dart'; 
 
 void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  int _selectedIndex = 0;
+
+  final List<Widget> _pages = <Widget>[
+    const Profile(),
+    const Counter(), 
+    
+  ];
+
+  
+  void _onItemTapped(int index) {
+    
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
-        appBar: AppBar(
-          title: const Text("Belajar Scaffold & AppBar"),
-          backgroundColor: Colors.teal,
-          actions: const [
-            Icon(Icons.search),
-            Icon(Icons.settings),
+        // appBar: AppBar(
+        //   title: const Text("My Profile & Counter App"),
+        //   backgroundColor: Colors.blue,
+        //   foregroundColor: Colors.white,
+        // ),
+        
+        body: _pages[_selectedIndex],
+
+        bottomNavigationBar: BottomNavigationBar(
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile"),
+            BottomNavigationBarItem(icon: Icon(Icons.numbers), label: "Counter"),
           ],
+          
+          currentIndex: _selectedIndex, 
+          onTap: _onItemTapped, 
+          selectedItemColor: Colors.blue, 
         ),
-        body: const Center(
-          child: Text("Ini Body Aplikasi"),
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {},
-          child: const Icon(Icons.add),
-        ),
-      drawer: Drawer(
-  child: ListView(
-    padding: EdgeInsets.zero,
-    children: const <Widget>[
-      DrawerHeader(
-        decoration: BoxDecoration(color: Colors.blue),
-        child: Text(
-          'Drawer Header',
-          style: TextStyle(color: Colors.white, fontSize: 24),
-        ),
-      ),
-      ListTile(
-        leading: Icon(Icons.message),
-        title: Text('Messages'),
-      ),
-      ListTile(
-        leading: Icon(Icons.account_circle),
-        title: Text('Profile'),
-      ),
-      ListTile(
-        leading: Icon(Icons.settings),
-        title: Text('Settings'),
-      ),
-    ],
-  ),
-),
-  bottomNavigationBar: BottomNavigationBar(
-    items: const <BottomNavigationBarItem> [
-      BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-      BottomNavigationBarItem(
-        icon: Icon(Icons.business),
-        label: 'Business',
-      ),
-      BottomNavigationBarItem(icon: Icon(Icons.school), label: 'School'),
-    ],
-  ),
       ),
     );
   }
